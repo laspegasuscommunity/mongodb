@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  #Это конфигурация Docker Compose для службы базы данных MongoDB используемой Lavamusic.
+  lavamusic-mongodb:
+    container_name: lavamusic-mongodb
+    deploy:
+      restart_policy:
+        condition: always
+        delay: 5s
+    env_file: mongodb.env
+    image: bitnami/mongodb:4.4
+    labels:
+      com.centurylinklabs.watchtower.enable: "false"
+      traefik.enable: "false"
+    shm_size: 256mb
+    # ports:
+    #   - "27017:27017"
+    volumes:
+      - "/mnt/docker-volumes/db/lavamusic-mongodb/data:/data/db"
+
+networks:
+  default:
+    external: true
+    name: $NETWORK
